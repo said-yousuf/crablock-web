@@ -1,26 +1,355 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #131313;
+  --on-background: #e2e2e2;
+  --primary-container: #663af3;
+  --secondary-container: #05e777;
+  --surface-container-low: #1b1b1b;
+  --surface-container: #1f1f1f;
+  --surface-container-high: #2a2a2a;
+  --surface-container-lowest: #0e0e0e;
+  --on-surface-variant: #cac3d9;
+  --error: #ffb4ab;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: #000;
+  color: var(--on-background);
+  font-family: "Inter", sans-serif;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.font-space {
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.font-mono-ui {
+  font-family: "JetBrains Mono", monospace;
+}
+
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined";
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+}
+
+.glass-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  margin: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+.orb-primary,
+.orb-secondary {
+  position: absolute;
+  border-radius: 50%;
+  z-index: -2;
+  pointer-events: none;
+}
+
+.orb-primary {
+  width: 600px;
+  height: 600px;
+  background: #663af3;
+  filter: blur(120px);
+  opacity: 0.1;
+}
+
+.orb-secondary {
+  width: 400px;
+  height: 400px;
+  background: #00e676;
+  filter: blur(100px);
+  opacity: 0.08;
+}
+
+.enclave-core-container {
+  perspective: 1000px;
+  cursor: crosshair;
+}
+
+.enclave-core {
+  width: 300px;
+  height: 300px;
+  transform-style: preserve-3d;
+  transform: rotateX(20deg) rotateY(30deg);
+  position: relative;
+  animation: rotateCore 20s infinite linear;
+  transition: transform 0.1s ease-out;
+}
+
+@keyframes rotateCore {
+  from { transform: rotateX(20deg) rotateY(0deg); }
+  to { transform: rotateX(20deg) rotateY(360deg); }
+}
+
+.core-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(102, 58, 243, 0.1);
+  border: 1px solid rgba(102, 58, 243, 0.5);
+  box-shadow: inset 0 0 40px rgba(102, 58, 243, 0.2);
+  transition: all 0.3s ease;
+}
+
+.face-front { transform: translateZ(150px); }
+.face-back { transform: rotateY(180deg) translateZ(150px); }
+.face-right { transform: rotateY(90deg) translateZ(150px); }
+.face-left { transform: rotateY(-90deg) translateZ(150px); }
+.face-top { transform: rotateX(90deg) translateZ(150px); }
+.face-bottom { transform: rotateX(-90deg) translateZ(150px); }
+
+.shield-active .core-face {
+  background: rgba(5, 231, 119, 0.2);
+  border-color: rgba(5, 231, 119, 0.8);
+  box-shadow: inset 0 0 60px rgba(5, 231, 119, 0.4), 0 0 30px rgba(5, 231, 119, 0.5);
+}
+
+.shield-pulse-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.shield-active .shield-pulse-effect {
+  animation: shieldPulse 1s ease-out;
+  opacity: 1;
+}
+
+@keyframes shieldPulse {
+  0% { box-shadow: 0 0 0 0 rgba(102, 58, 243, 0.7); }
+  70% { box-shadow: 0 0 0 50px rgba(102, 58, 243, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(102, 58, 243, 0); }
+}
+
+.logo-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.logo-shimmer::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.25), transparent);
+  transform: rotate(45deg);
+  animation: shimmer 3s infinite linear;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) rotate(45deg); }
+}
+
+.scanner-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.scanner-line {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #05e777;
+  box-shadow: 0 0 15px 3px rgba(5, 231, 119, 0.6);
+  opacity: 0;
+  animation: scanUpDown 4s infinite linear;
+  z-index: 20;
+}
+
+@keyframes scanUpDown {
+  0% { top: 0; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.terminal-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.terminal-scroll::-webkit-scrollbar-track {
+  background: #0e0e0e;
+}
+
+.terminal-scroll::-webkit-scrollbar-thumb {
+  background: #663af3;
+}
+
+@keyframes heroTextSwap {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-text-swap {
+  animation: heroTextSwap 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Storytelling hero — from `updated-hero-section-with-scroll-effects/code.html` */
+.visual-stage {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+  transform: scale(0.95);
+}
+.visual-stage.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.text-stage {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.text-stage.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.deconstructed-enclave {
+  width: 300px;
+  height: 300px;
+  transform-style: preserve-3d;
+  transform: rotateX(20deg) rotateY(30deg);
+  transition: transform 0.1s linear;
+}
+
+.deconstructed-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(102, 58, 243, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s linear, opacity 0.1s linear, border-color 0.3s ease, background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 15px;
+  background-color: #663af3;
+  animation: blink 1s step-end infinite;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.hero-noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+}
+
+.hero-hud-corners::before,
+.hero-hud-corners::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 1px solid rgba(203, 190, 255, 0.35);
+}
+.hero-hud-corners::before {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+.hero-hud-corners::after {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+}
+
+.hero-minimap {
+  background: repeating-linear-gradient(
+      to bottom,
+      rgba(102, 58, 243, 0.35) 0px,
+      rgba(102, 58, 243, 0.35) 2px,
+      rgba(255, 255, 255, 0.04) 2px,
+      rgba(255, 255, 255, 0.04) 5px
+    ),
+    linear-gradient(to bottom, rgba(5, 231, 119, 0.12), transparent 45%, rgba(102, 58, 243, 0.15));
+}
+
+.hero-cube-grid {
+  background-image: linear-gradient(rgba(203, 190, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(203, 190, 255, 0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse at center, black 35%, transparent 75%);
+}
+
+.hero-cube-face-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
