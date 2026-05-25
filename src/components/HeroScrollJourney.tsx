@@ -2,6 +2,7 @@
 
 import type { CSSProperties } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { APP_URL } from "@/lib/constants";
 
 /** Ported from `updated-hero-section-with-scroll-effects/code.html` — storytelling scroll hero (3 stages). */
 
@@ -222,12 +223,14 @@ export function HeroScrollJourney() {
                 Defense-in-depth architecture engineered for zero-trust environments. Isolate, encrypt, and deploy with hyper-technical precision.
               </p>
               <div className="flex gap-4 pt-2">
-                <button
-                  type="button"
+                <a
+                  href={APP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="rounded border border-[#663af3] bg-[#663af3]/20 px-8 py-3 font-space text-sm uppercase text-[#e3daff] shadow-[0_0_15px_rgba(102,58,243,0.3)] transition-colors hover:bg-[#663af3]/30"
                 >
                   Deploy Enclave
-                </button>
+                </a>
               </div>
             </div>
           </div>

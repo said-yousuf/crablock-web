@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { HeroScrollJourney } from "@/components/HeroScrollJourney";
+import { APP_URL } from "@/lib/constants";
 
 const logoPath = "/logo.png";
 
@@ -130,6 +131,16 @@ export default function Home() {
               </a>
             ))}
           </nav>
+          <div className="flex items-center gap-6">
+            <a
+              href={APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden items-center justify-center rounded border border-[#cbbeff]/50 px-4 py-2 font-space text-xs font-medium uppercase tracking-[0.2em] text-[#cbbeff] transition-all hover:border-[#cbbeff] hover:text-white md:flex"
+            >
+              Sign in
+            </a>
+          </div>
         </div>
       </header>
 
@@ -138,7 +149,14 @@ export default function Home() {
           <Image src={logoPath} alt="Crablock logo" width={20} height={20} />
           CRABLOCK
         </div>
-        <span className="material-symbols-outlined text-[#cbbeff]">menu</span>
+        <a
+          href={APP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded border border-[#cbbeff]/40 px-3 py-1.5 font-space text-[10px] font-bold uppercase tracking-[0.15em] text-[#cbbeff]"
+        >
+          Sign in
+        </a>
       </div>
 
       <main className="pt-[80px] md:pt-[100px]">
@@ -155,9 +173,14 @@ export default function Home() {
             <span className="font-mono-ui rounded border border-[#7dffa2]/30 bg-[#7dffa2]/5 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-[#7dffa2]">System Secure</span>
             <h1 className="mt-3 font-space text-5xl font-bold uppercase leading-none text-white">Absolute Sovereignty</h1>
             <p className="mt-4 text-[#cac3d9]">Military-grade zero-trust architecture designed for elite operators.</p>
-            <button className="mt-6 flex w-full items-center justify-center gap-2 rounded border border-[#cbbeff] bg-black py-4 font-space text-sm font-bold uppercase tracking-[0.15em] text-[#cbbeff] shadow-[0_0_20px_rgba(102,58,243,0.25)]">
+            <a
+              href={APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 flex w-full items-center justify-center gap-2 rounded border border-[#cbbeff] bg-black py-4 font-space text-sm font-bold uppercase tracking-[0.15em] text-[#cbbeff] shadow-[0_0_20px_rgba(102,58,243,0.25)]"
+            >
               DEPLOY ENCLAVE <span className="material-symbols-outlined text-base">rocket_launch</span>
-            </button>
+            </a>
           </div>
         </section>
 
@@ -323,9 +346,14 @@ export default function Home() {
               ))}
             </div>
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <button className="rounded border border-white/20 bg-[#663af3] px-10 py-4 font-space text-base uppercase shadow-[0_0_30px_rgba(102,58,243,0.5)] transition-transform hover:-translate-y-0.5">
+              <a
+                href={APP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded border border-white/20 bg-[#663af3] px-10 py-4 font-space text-base uppercase shadow-[0_0_30px_rgba(102,58,243,0.5)] transition-transform hover:-translate-y-0.5"
+              >
                 START BUILDING TODAY
-              </button>
+              </a>
               <button className="rounded border border-white/15 bg-white/5 px-8 py-4 font-space text-sm uppercase tracking-[0.15em] text-white/85 backdrop-blur-sm transition-colors hover:border-[#7dffa2]/40 hover:text-white">
                 VIEW ATTESTATION KIT
               </button>
