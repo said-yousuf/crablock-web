@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { HeroScrollJourney } from "@/components/HeroScrollJourney";
 import { APP_URL } from "@/lib/constants";
 
-const logoPath = "/logo.png";
+const logoPath = "/logo.svg";
 
 export default function Home() {
   const [headerSolid, setHeaderSolid] = useState(false);
