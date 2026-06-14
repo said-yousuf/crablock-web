@@ -2,7 +2,7 @@
 
 import type { CSSProperties } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { APP_URL } from "@/lib/constants";
+import { APP_URL, DOWNLOAD_URL } from "@/lib/constants";
 
 /** Ported from `updated-hero-section-with-scroll-effects/code.html` — storytelling scroll hero (3 stages). */
 
@@ -230,6 +230,12 @@ export function HeroScrollJourney() {
                   className="rounded border border-[#663af3] bg-[#663af3]/20 px-8 py-3 font-space text-sm uppercase text-[#e3daff] shadow-[0_0_15px_rgba(102,58,243,0.3)] transition-colors hover:bg-[#663af3]/30"
                 >
                   Deploy Enclave
+                </a>
+                <a
+                  href={DOWNLOAD_URL}
+                  className="rounded border border-[#7dffa2]/45 bg-[#7dffa2]/10 px-8 py-3 font-space text-sm uppercase text-[#7dffa2] shadow-[0_0_15px_rgba(5,231,119,0.16)] transition-colors hover:border-[#7dffa2] hover:bg-[#7dffa2]/15 hover:text-white"
+                >
+                  Download Desktop
                 </a>
               </div>
             </div>

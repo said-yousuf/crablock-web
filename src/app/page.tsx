@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { HeroScrollJourney } from "@/components/HeroScrollJourney";
-import { APP_URL } from "@/lib/constants";
+import { APP_URL, DOWNLOAD_URL } from "@/lib/constants";
 
 const logoPath = "/logo.svg";
 
@@ -130,8 +131,20 @@ export default function Home() {
                 {item}
               </a>
             ))}
+            <Link
+              href="/docs"
+              className="font-space text-xs font-medium uppercase tracking-[0.2em] text-zinc-500 transition-all hover:text-white"
+            >
+              Docs
+            </Link>
           </nav>
           <div className="flex items-center gap-6">
+            <a
+              href={DOWNLOAD_URL}
+              className="hidden items-center justify-center rounded border border-[#7dffa2]/50 bg-[#7dffa2]/10 px-4 py-2 font-space text-xs font-medium uppercase tracking-[0.2em] text-[#7dffa2] transition-all hover:border-[#7dffa2] hover:bg-[#7dffa2]/15 hover:text-white md:flex"
+            >
+              Download
+            </a>
             <a
               href={APP_URL}
               target="_blank"
@@ -149,14 +162,28 @@ export default function Home() {
           <Image src={logoPath} alt="Crablock logo" width={20} height={20} />
           CRABLOCK
         </div>
-        <a
-          href={APP_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded border border-[#cbbeff]/40 px-3 py-1.5 font-space text-[10px] font-bold uppercase tracking-[0.15em] text-[#cbbeff]"
-        >
-          Sign in
-        </a>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/docs"
+            className="rounded border border-white/15 px-3 py-1.5 font-space text-[10px] font-bold uppercase tracking-[0.12em] text-white/75"
+          >
+            Docs
+          </Link>
+          <a
+            href={DOWNLOAD_URL}
+            className="rounded border border-[#7dffa2]/40 px-3 py-1.5 font-space text-[10px] font-bold uppercase tracking-[0.12em] text-[#7dffa2]"
+          >
+            Download
+          </a>
+          <a
+            href={APP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded border border-[#cbbeff]/40 px-3 py-1.5 font-space text-[10px] font-bold uppercase tracking-[0.12em] text-[#cbbeff]"
+          >
+            App
+          </a>
+        </div>
       </div>
 
       <main className="pt-[80px] md:pt-[100px]">
@@ -180,6 +207,12 @@ export default function Home() {
               className="mt-6 flex w-full items-center justify-center gap-2 rounded border border-[#cbbeff] bg-black py-4 font-space text-sm font-bold uppercase tracking-[0.15em] text-[#cbbeff] shadow-[0_0_20px_rgba(102,58,243,0.25)]"
             >
               DEPLOY ENCLAVE <span className="material-symbols-outlined text-base">rocket_launch</span>
+            </a>
+            <a
+              href={DOWNLOAD_URL}
+              className="mt-3 flex w-full items-center justify-center gap-2 rounded border border-[#7dffa2]/70 bg-[#7dffa2]/10 py-4 font-space text-sm font-bold uppercase tracking-[0.15em] text-[#7dffa2] shadow-[0_0_20px_rgba(5,231,119,0.18)]"
+            >
+              DOWNLOAD DESKTOP <span className="material-symbols-outlined text-base">download</span>
             </a>
           </div>
         </section>
@@ -354,9 +387,12 @@ export default function Home() {
               >
                 START BUILDING TODAY
               </a>
-              <button className="rounded border border-white/15 bg-white/5 px-8 py-4 font-space text-sm uppercase tracking-[0.15em] text-white/85 backdrop-blur-sm transition-colors hover:border-[#7dffa2]/40 hover:text-white">
-                VIEW ATTESTATION KIT
-              </button>
+              <a
+                href={DOWNLOAD_URL}
+                className="rounded border border-[#7dffa2]/45 bg-white/5 px-8 py-4 font-space text-sm uppercase tracking-[0.15em] text-[#7dffa2] backdrop-blur-sm transition-colors hover:border-[#7dffa2] hover:text-white"
+              >
+                DOWNLOAD DESKTOP
+              </a>
             </div>
           </div>
         </section>
@@ -386,13 +422,22 @@ export default function Home() {
               <div key={title as string}>
                 <div className="font-mono-ui text-[10px] uppercase tracking-[0.25em] text-white/40">{title as string}</div>
                 <ul className="mt-3 space-y-2">
-                  {(links as string[]).map((l) => (
-                    <li key={l}>
-                      <a href="#" className="font-space text-[12px] uppercase tracking-[0.08em] text-zinc-500 transition-colors hover:text-violet-400">
-                        {l}
-                      </a>
-                    </li>
-                  ))}
+                  {(links as string[]).map((l) => {
+                    const href = l === "Docs" ? "/docs" : l === "CLI" ? DOWNLOAD_URL : "#";
+                    const isExternal = href.startsWith("http");
+                    return (
+                      <li key={l}>
+                        <a
+                          href={href}
+                          target={isExternal ? "_blank" : undefined}
+                          rel={isExternal ? "noopener noreferrer" : undefined}
+                          className="font-space text-[12px] uppercase tracking-[0.08em] text-zinc-500 transition-colors hover:text-violet-400"
+                        >
+                          {l}
+                        </a>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ))}
