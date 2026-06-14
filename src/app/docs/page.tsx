@@ -5,9 +5,9 @@ import Link from "next/link";
 import { APP_URL, DOWNLOAD_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Crablock Docs - Console, Desktop, and CLI",
+  title: "Crablock Docs - Console, CrablockFile, Desktop, and CLI",
   description:
-    "Operational documentation for Crablock web console, desktop encryption workflow, and CLI runtime.",
+    "Operational documentation for Crablock web console, CrablockFile configuration, desktop encryption workflow, and CLI runtime.",
 };
 
 type AnnotationTone = "violet" | "green" | "amber";
@@ -127,6 +127,22 @@ const desktopFigures: ScreenshotFigure[] = [
   },
 ];
 
+const configFigure: ScreenshotFigure = {
+  title: "CrablockFile config anatomy",
+  description:
+    "The config file is a YAML recipe named exactly CrablockFile. It sits at the project root and becomes the runtime contract stored in the encrypted package manifest.",
+  src: "/docs/screenshots/crablockfile-config.svg",
+  width: 1440,
+  height: 900,
+  annotations: [
+    { label: "The file must be named CrablockFile and live in the package root.", x: 5, y: 20, width: 15, height: 6, tone: "green" },
+    { label: "Version, framework, app_root, and open_url identify how the app should boot.", x: 27, y: 17, width: 13, height: 12, tone: "violet" },
+    { label: "include_paths keeps packages focused on production build output instead of the whole development tree.", x: 27, y: 33, width: 33, height: 15, tone: "green" },
+    { label: "runtime_assets binds commands such as node or php to a bundled customer runtime.", x: 27, y: 49, width: 37, height: 18, tone: "amber" },
+    { label: "commands and services define migrations, APIs, web processes, ports, restart policy, and customer routes.", x: 27, y: 68, width: 38, height: 20, tone: "violet" },
+  ],
+};
+
 const releaseStates = [
   ["queued", "GitHub release source is waiting for worker processing."],
   ["processing", "Upload or source build is being packed and signed."],
@@ -161,8 +177,66 @@ const desktopAdvancedOptions = [
   ],
 ] as const;
 
+const crablockFileEssentials = [
+  [
+    "Exact file name",
+    "Use CrablockFile with no extension. The packager looks for that file beside the project source when the input is a directory.",
+  ],
+  [
+    "V1 and V2 are supported",
+    "Version 1 requires one start command. Version 2 requires either a start command or at least one named service.",
+  ],
+  [
+    "It is the runtime contract",
+    "The recipe is normalized into package manifest metadata: framework, app root, commands, services, runtimes, writable paths, database, license, and open URL.",
+  ],
+  [
+    "Treat it as required",
+    "Simple binaries can run without a recipe, but framework apps are incomplete without it because the customer launcher cannot reliably know what to copy, prepare, start, or open.",
+  ],
+] as const;
+
+const crablockFileFieldGroups = [
+  [
+    "Packaging scope",
+    "app_root, include_paths, and exclude_paths decide which folders enter the encrypted package. For Node, Next, Nest, and desktop-prepared builds, include only production output and required runtime folders.",
+  ],
+  [
+    "Runtime identity",
+    "framework and required_runtimes document the app type and host dependencies. Runtime labels are also used in inspection screens and support workflows.",
+  ],
+  [
+    "Commands and services",
+    "setup_once and commands are one-shot jobs. services are long-running processes with optional ports and restart policy. Commands are argv arrays, not shell strings.",
+  ],
+  [
+    "Customer routes",
+    "open_url tells the runner what URL to open after services start. service ports document API, web, queue, scheduler, or database processes.",
+  ],
+  [
+    "Portable runtimes",
+    "runtime_assets describes bundled or downloadable dependencies. bundled_path lets the runner resolve node, php, npm, npx, or other declared runtimes without customer installs.",
+  ],
+  [
+    "Data and policy",
+    "writable_paths prepares mutable folders, database can declare data/bootstrap behavior, license can require a signed license token before startup.",
+  ],
+] as const;
+
+const crablockFileRules = [
+  "version must be 1 or 2.",
+  "V1 requires start; V2 requires start or at least one service.",
+  "app_root, include_paths, exclude_paths, writable_paths, runtime asset paths, and database paths must be relative.",
+  "Paths cannot contain .. because package files must not escape the extracted app root.",
+  "commands and services must use argv arrays such as run: [php, artisan, migrate, --force].",
+  "sh -c and bash -c are rejected because shell wrappers hide behavior from validation.",
+  "command and service names may use letters, numbers, '.', '_', and '-'.",
+  "service restart must be never, always, or on-failure.",
+] as const;
+
 const toc = [
   ["Install", "#install"],
+  ["CrablockFile", "#crablockfile"],
   ["Web Console", "#web-console"],
   ["Release Flow", "#release-flow"],
   ["Desktop App", "#desktop-app"],
@@ -267,6 +341,116 @@ export default function DocsPage() {
                 "4. Encrypt, then build the customer delivery folder.",
                 "5. Ship Start <App>.exe, <App>.customer.crabundle, <App>.key, and optional license files.",
               ]}
+            />
+          </DocsSection>
+
+          <DocsSection id="crablockfile" eyebrow="Config File" title="CrablockFile runtime recipe">
+            <p className="max-w-3xl text-[#cac3d9]">
+              CrablockFile is the config file that makes Crablock understandable for real applications. The desktop app can generate it,
+              and the CLI reads it automatically when packaging a directory. Without this recipe, a framework package may encrypt files but
+              still fail the customer workflow because the runner has no reliable contract for build output, startup commands, ports,
+              runtime sidecars, writable data, license policy, or the URL to open.
+            </p>
+
+            <div className="mt-8">
+              <AnnotatedScreenshot figure={configFigure} priority />
+            </div>
+
+            <Callout title="Do not skip the config for framework apps" tone="amber">
+              Treat CrablockFile as required for Laravel, PHP, Node, Next.js, NestJS, React desktop builds, database-backed apps,
+              multi-service packages, and any customer package that must run without developer tools installed.
+            </Callout>
+
+            <div className="mt-8 grid gap-4 md:grid-cols-2">
+              {crablockFileEssentials.map(([title, copy], index) => (
+                <InfoTile key={title} title={title} marker={String(index + 1).padStart(2, "0")}>
+                  {copy}
+                </InfoTile>
+              ))}
+            </div>
+
+            <div className="mt-8 grid gap-4 md:grid-cols-2">
+              {crablockFileFieldGroups.map(([title, copy], index) => (
+                <InfoTile key={title} title={title} marker={String(index + 5).padStart(2, "0")}>
+                  {copy}
+                </InfoTile>
+              ))}
+            </div>
+
+            <div className="mt-8 grid gap-6 xl:grid-cols-2">
+              <CodeBlock
+                title="V2 service recipe for a Node web/API app"
+                lines={[
+                  "version: 2",
+                  "framework: react-nestjs",
+                  "app_root: .",
+                  "open_url: http://127.0.0.1:5175",
+                  "include_paths:",
+                  "  - .crablock",
+                  "  - apps/web/dist",
+                  "  - apps/web/desktop/runtime",
+                  "required_runtimes: [node]",
+                  "runtime_assets:",
+                  "  - name: node-windows-x64",
+                  "    runtime: node",
+                  "    executable: node.exe",
+                  "    archive_format: directory",
+                  "    bundled_path: apps/web/desktop/runtime/node",
+                  "commands:",
+                  "  migrate:",
+                  "    run: [node, .crablock/migrate.cjs]",
+                  "services:",
+                  "  api:",
+                  "    run: [node, .crablock/api.cjs]",
+                  "    restart: on-failure",
+                  "    ports: [4000]",
+                  "  web:",
+                  "    run: [node, .crablock/static-server.cjs, apps/web/dist, 127.0.0.1, \"5175\"]",
+                  "    restart: on-failure",
+                  "    ports: [5175]",
+                ]}
+              />
+              <CodeBlock
+                title="V1 single-service recipe for Laravel"
+                lines={[
+                  "version: 1",
+                  "framework: laravel",
+                  "app_root: .",
+                  "required_runtimes: [php, composer]",
+                  "writable_paths:",
+                  "  - storage",
+                  "  - bootstrap/cache",
+                  "setup_once:",
+                  "  - run: [composer, install, --no-dev, --optimize-autoloader]",
+                  "  - run: [php, artisan, config:cache]",
+                  "start:",
+                  "  run: [php, artisan, serve, --host=127.0.0.1, --port=8000]",
+                ]}
+              />
+            </div>
+
+            <CodeBlock
+              className="mt-6"
+              title="Create or refresh CrablockFile"
+              lines={[
+                "# From Crablock Desktop:",
+                "1. Open Encryption.",
+                "2. Choose the project folder.",
+                "3. Run detection and review the generated recipe.",
+                "4. Click Write CrablockFile before Encrypt.",
+                "",
+                "# From the CLI bundle workflow:",
+                "crablock-pack bundle --project C:\\apps\\customer-app --output C:\\out\\customer.crabundle --key file:C:\\keys\\customer.key --write-crablockfile",
+                "",
+                "# From the repository helper script for known stacks:",
+                ".\\scripts\\new-crablockfile.ps1 -Stack react-nestjs -ProjectPath C:\\apps\\customer-app -AppName CustomerApp -WebPort 5175 -ApiPort 4000 -Force",
+              ]}
+            />
+
+            <CodeBlock
+              className="mt-6"
+              title="Validation rules enforced by the CLI"
+              lines={crablockFileRules.map((rule, index) => `${index + 1}. ${rule}`)}
             />
           </DocsSection>
 
