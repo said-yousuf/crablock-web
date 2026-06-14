@@ -8,6 +8,14 @@ import { APP_URL, DOWNLOAD_URL } from "@/lib/constants";
 
 const logoPath = "/logo.svg";
 
+function GithubMark({ className = "" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+      <path d="M12 0C5.37 0 0 5.51 0 12.3c0 5.44 3.44 10.04 8.21 11.67.6.11.82-.27.82-.59 0-.29-.01-1.06-.02-2.08-3.34.75-4.04-1.65-4.04-1.65-.55-1.42-1.33-1.8-1.33-1.8-1.09-.76.08-.75.08-.75 1.2.09 1.84 1.27 1.84 1.27 1.07 1.88 2.81 1.34 3.5 1.02.11-.79.42-1.34.76-1.65-2.67-.31-5.47-1.37-5.47-6.08 0-1.34.47-2.44 1.23-3.3-.12-.31-.53-1.56.12-3.25 0 0 1.01-.33 3.3 1.26A11.3 11.3 0 0 1 12 5.97c1.02 0 2.05.14 3.01.41 2.29-1.59 3.29-1.26 3.29-1.26.66 1.69.25 2.94.13 3.25.77.86 1.23 1.96 1.23 3.3 0 4.72-2.81 5.76-5.49 6.07.43.38.82 1.13.82 2.28 0 1.65-.02 2.98-.02 3.39 0 .33.22.71.83.59A12.18 12.18 0 0 0 24 12.3C24 5.51 18.63 0 12 0Z" />
+    </svg>
+  );
+}
+
 export default function Home() {
   const [headerSolid, setHeaderSolid] = useState(false);
   const [activeSection, setActiveSection] = useState("shield");
@@ -105,15 +113,15 @@ export default function Home() {
       <div className="orb-secondary top-1/4 right-0" />
       <div className="orb-primary bottom-0 right-1/4 !bg-[#00E676] !opacity-5" />
 
-      <header className={`fixed top-0 z-50 hidden w-full border-b border-white/10 transition-all md:block ${headerSolid ? "bg-black/80 backdrop-blur-xl" : "bg-black/40 backdrop-blur-md"}`}>
-        <div className="mx-auto flex w-full max-w-[1440px] items-center justify-between px-12 py-6">
+      <header className={`fixed top-0 z-50 hidden w-full border-b border-white/10 transition-all lg:block ${headerSolid ? "bg-black/80 backdrop-blur-xl" : "bg-black/40 backdrop-blur-md"}`}>
+        <div className="mx-auto flex w-full max-w-[1440px] items-center justify-between px-6 py-5 xl:px-12 xl:py-6">
           <div className="flex items-center gap-4">
             <div className="logo-shimmer flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg border border-[#663af3]/30 bg-[#663af3]/20">
               <Image src={logoPath} alt="Crablock logo" width={32} height={32} className="h-8 w-8 object-contain" />
             </div>
             <div className="font-space text-2xl font-bold tracking-tighter text-white">CRABLOCK</div>
           </div>
-          <nav className="flex items-center gap-8">
+          <nav className="flex items-center gap-5 xl:gap-8">
             {navItems.map(([item, id]) => (
               <a
                 key={item}
@@ -138,10 +146,10 @@ export default function Home() {
               Docs
             </Link>
           </nav>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 xl:gap-6">
             <a
               href={DOWNLOAD_URL}
-              className="hidden items-center justify-center rounded border border-[#7dffa2]/50 bg-[#7dffa2]/10 px-4 py-2 font-space text-xs font-medium uppercase tracking-[0.2em] text-[#7dffa2] transition-all hover:border-[#7dffa2] hover:bg-[#7dffa2]/15 hover:text-white md:flex"
+              className="hidden items-center justify-center rounded border border-[#7dffa2]/50 bg-[#7dffa2]/10 px-3 py-2 font-space text-xs font-medium uppercase tracking-[0.2em] text-[#7dffa2] transition-all hover:border-[#7dffa2] hover:bg-[#7dffa2]/15 hover:text-white lg:flex xl:px-4"
             >
               Download
             </a>
@@ -149,15 +157,16 @@ export default function Home() {
               href={APP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden items-center justify-center rounded border border-[#cbbeff]/50 px-4 py-2 font-space text-xs font-medium uppercase tracking-[0.2em] text-[#cbbeff] transition-all hover:border-[#cbbeff] hover:text-white md:flex"
+              className="hidden h-12 items-center justify-center gap-3 whitespace-nowrap rounded-[18px] border border-zinc-700/80 bg-[#020202] px-5 font-space text-sm font-semibold normal-case tracking-normal text-[#e7e7ea] shadow-[0_10px_22px_rgba(0,0,0,0.5),_inset_0_1px_0_rgba(255,255,255,0.08)] ring-1 ring-black transition-all hover:-translate-y-0.5 hover:border-zinc-500/80 hover:bg-[#09090a] hover:text-white hover:shadow-[0_14px_28px_rgba(0,0,0,0.6),_inset_0_1px_0_rgba(255,255,255,0.1)] lg:flex xl:h-14 xl:gap-4 xl:px-7 xl:text-base"
             >
-              Sign in
+              <GithubMark className="h-6 w-6 shrink-0 text-white/85 xl:h-7 xl:w-7" />
+              <span className="text-[#e7e7ea]">Sign in with Github</span>
             </a>
           </div>
         </div>
       </header>
 
-      <div className="fixed top-0 left-0 z-50 flex w-full items-center justify-between border-b border-white/10 bg-black/70 px-4 py-4 backdrop-blur-xl md:hidden">
+      <div className="fixed top-0 left-0 z-50 flex w-full items-center justify-between border-b border-white/10 bg-black/70 px-4 py-4 backdrop-blur-xl lg:hidden">
         <div className="flex items-center gap-2 font-space text-lg font-bold uppercase tracking-tight text-[#cbbeff]">
           <Image src={logoPath} alt="Crablock logo" width={20} height={20} />
           CRABLOCK
@@ -179,9 +188,11 @@ export default function Home() {
             href={APP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded border border-[#cbbeff]/40 px-3 py-1.5 font-space text-[10px] font-bold uppercase tracking-[0.12em] text-[#cbbeff]"
+            aria-label="Sign in with Github"
+            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[12px] border border-zinc-700/80 bg-[#020202] px-2.5 py-1.5 font-space text-[10px] font-semibold normal-case tracking-normal text-[#e7e7ea] shadow-[0_8px_16px_rgba(0,0,0,0.5),_inset_0_1px_0_rgba(255,255,255,0.08)]"
           >
-            App
+            <GithubMark className="h-4 w-4 shrink-0 text-white/85" />
+            <span className="hidden min-[400px]:inline">Github</span>
           </a>
         </div>
       </div>
