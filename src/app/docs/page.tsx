@@ -5,9 +5,9 @@ import Link from "next/link";
 import { APP_URL, DOWNLOAD_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Crablock Docs - Console, Desktop, CLI, and API",
+  title: "Crablock Docs - Console, Desktop, and CLI",
   description:
-    "Operational documentation for Crablock web console, desktop encryption workflow, CLI runtime, and backend API routes.",
+    "Operational documentation for Crablock web console, desktop encryption workflow, and CLI runtime.",
 };
 
 type AnnotationTone = "violet" | "green" | "amber";
@@ -73,7 +73,7 @@ const webFigures: ScreenshotFigure[] = [
   {
     title: "Release register",
     description:
-      "The release register tracks queued, processing, published, and failed releases. Published rows expose download actions through a signed backend URL.",
+      "The release register tracks queued, processing, published, and failed releases. Published rows expose download actions through a signed release URL.",
     src: "/docs/screenshots/web-releases.png",
     width: 1185,
     height: 980,
@@ -127,19 +127,6 @@ const desktopFigures: ScreenshotFigure[] = [
   },
 ];
 
-const apiRows = [
-  ["POST", "/api/v1/auth/login", "Authenticate and set the browser session."],
-  ["GET", "/api/v1/projects", "List project workspaces for the current organization."],
-  ["POST", "/api/v1/projects", "Create a new project workspace."],
-  ["GET", "/api/v1/projects/{project_id}", "Read project metadata and workspace identifiers."],
-  ["PUT", "/api/v1/projects/{project_id}/environment", "Replace encrypted project-level environment variables."],
-  ["PUT", "/api/v1/projects/{project_id}/release-source/upload", "Upload a built artifact as the release source."],
-  ["PUT", "/api/v1/projects/{project_id}/release-source/github", "Connect a GitHub repository, git ref, build preset, and artifact path."],
-  ["POST", "/api/v1/projects/{project_id}/keys/rotate", "Provision a new active project key version."],
-  ["POST", "/api/v1/projects/{project_id}/releases", "Create a versioned release from the configured source."],
-  ["GET", "/api/v1/projects/{project_id}/releases/{release_id}/download", "Return a short-lived signed package URL and filename."],
-] as const;
-
 const releaseStates = [
   ["queued", "GitHub release source is waiting for worker processing."],
   ["processing", "Upload or source build is being packed and signed."],
@@ -147,12 +134,40 @@ const releaseStates = [
   ["failed", "Build or package processing failed. Inspect the release detail sheet."],
 ] as const;
 
+const desktopAdvancedOptions = [
+  [
+    "Runtime folders",
+    "Scan for local runtime folders or map them manually for Node, PHP, PostgreSQL, MySQL, and MariaDB sidecars before encryption.",
+  ],
+  [
+    "Key and signature material",
+    "Generate or rotate the customer key, attach the developer signing key, and keep the signing public key available for customer-side verification.",
+  ],
+  [
+    "Environment and preparation",
+    "Attach a dotenv file, review the generated CrablockFile recipe, and use the no-prepare option only when the project output is already built.",
+  ],
+  [
+    "License gate",
+    "Enable license requirements for package-bound customer access, then generate the license file and matching public key before delivery.",
+  ],
+  [
+    "Delivery builder",
+    "Use the Delivery tab to assemble the launcher, encrypted package, key file, signing public key, and optional license sidecars into one customer folder.",
+  ],
+  [
+    "Run verification",
+    "Use Check before Run to inspect framework, runtime, database, license, signature, and signing fingerprint metadata without starting the app.",
+  ],
+] as const;
+
 const toc = [
   ["Install", "#install"],
   ["Web Console", "#web-console"],
+  ["Release Flow", "#release-flow"],
   ["Desktop App", "#desktop-app"],
+  ["Advanced", "#desktop-advanced"],
   ["CLI", "#cli"],
-  ["Backend API", "#backend-api"],
   ["Security", "#security"],
 ] as const;
 
@@ -207,7 +222,7 @@ export default function DocsPage() {
               Ship encrypted customer applications with Crablock.
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-8 text-[#cac3d9]">
-              Crablock combines a hosted operations console, a desktop encryption shell, a Rust CLI/runtime, and a FastAPI backend.
+              Crablock combines a hosted operations console, a desktop encryption shell, and a Rust CLI/runtime.
               Use these docs to package customer applications, publish releases, and download signed runtime artifacts.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -237,14 +252,13 @@ export default function DocsPage() {
               <InfoTile title="Hosted console" marker="02">
                 Use the hosted console for projects, release sources, key versions, release records, and signed package downloads.
               </InfoTile>
-              <InfoTile title="Backend API docs" marker="03">
-                API explorers are available at <InlineLink href="https://api.crablock.cloud/docs">Swagger</InlineLink>,{" "}
-                <InlineLink href="https://api.crablock.cloud/redoc">ReDoc</InlineLink>, and{" "}
-                <InlineLink href="https://api.crablock.cloud/scalar">Scalar</InlineLink>.
+              <InfoTile title="CLI and runtime tools" marker="03">
+                Use the CLI for scripted packaging, manifest inspection, signature verification, service control, and customer runtime support.
               </InfoTile>
             </div>
 
             <CodeBlock
+              className="mt-6"
               title="Windows customer packaging path"
               lines={[
                 "1. Install Crablock Desktop.",
@@ -268,8 +282,27 @@ export default function DocsPage() {
             </div>
 
             <Callout title="Release download behavior" tone="green">
-              The browser does not download from the API route directly. The console calls the backend download endpoint, reads the
-              returned <code className="font-mono-ui text-[#7dffa2]">url</code>, and starts the browser download from that signed storage URL.
+              The browser does not download from the release request directly. The console requests a download, reads the returned{" "}
+              <code className="font-mono-ui text-[#7dffa2]">url</code>, and starts the browser download from that signed storage URL.
+            </Callout>
+          </DocsSection>
+
+          <DocsSection id="release-flow" eyebrow="Release Flow" title="Understand release states">
+            <p className="max-w-3xl text-[#cac3d9]">
+              Treat the release register as the operational source of truth. A release moves from queued work to a published package,
+              or it stops in failed state with detail available from the release sheet.
+            </p>
+            <div className="mt-6 grid gap-3 md:grid-cols-2">
+              {releaseStates.map(([state, meaning]) => (
+                <div key={state} className="rounded-lg border border-white/10 bg-white/[0.03] p-4">
+                  <p className="font-mono-ui text-[11px] uppercase tracking-[0.18em] text-[#7dffa2]">{state}</p>
+                  <p className="mt-2 text-sm leading-6 text-[#cac3d9]">{meaning}</p>
+                </div>
+              ))}
+            </div>
+            <Callout title="Published downloads are temporary" tone="violet">
+              Published release downloads use signed URLs. Start the download from the console action and avoid storing the returned URL
+              as a permanent artifact link.
             </Callout>
           </DocsSection>
 
@@ -283,6 +316,31 @@ export default function DocsPage() {
                 <AnnotatedScreenshot key={figure.src} figure={figure} />
               ))}
             </div>
+          </DocsSection>
+
+          <DocsSection id="desktop-advanced" eyebrow="Desktop Advanced" title="Advanced packaging controls">
+            <p className="max-w-3xl text-[#cac3d9]">
+              Use the advanced panel when the customer package needs portable runtimes, signed policies, license enforcement, or a
+              controlled delivery folder. Keep these settings deliberate because they change what the runner requires at customer startup.
+            </p>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              {desktopAdvancedOptions.map(([title, copy], index) => (
+                <InfoTile key={title} title={title} marker={String(index + 1).padStart(2, "0")}>
+                  {copy}
+                </InfoTile>
+              ))}
+            </div>
+            <CodeBlock
+              className="mt-6"
+              title="Advanced desktop checklist"
+              lines={[
+                "1. Scan or select runtime folders before encryption when the customer PC should not install dependencies.",
+                "2. Generate the customer key and developer signing key before building the package.",
+                "3. Review the generated CrablockFile recipe before writing it to the source project.",
+                "4. Enable license requirements only after the license public key and customer duration are set.",
+                "5. Build the delivery folder, then use Check on the Running page before handing it to the customer.",
+              ]}
+            />
           </DocsSection>
 
           <DocsSection id="cli" eyebrow="CLI" title="Command line quick reference">
@@ -324,45 +382,6 @@ export default function DocsPage() {
                 ]}
               />
             </div>
-          </DocsSection>
-
-          <DocsSection id="backend-api" eyebrow="Backend API" title="API routes and release states">
-            <div className="overflow-hidden rounded-lg border border-white/10">
-              <table className="w-full min-w-[720px] border-collapse text-left text-sm">
-                <thead className="bg-white/[0.05] font-mono-ui text-[10px] uppercase tracking-[0.18em] text-white/45">
-                  <tr>
-                    <th className="px-4 py-3">Method</th>
-                    <th className="px-4 py-3">Route</th>
-                    <th className="px-4 py-3">Purpose</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/10">
-                  {apiRows.map(([method, route, purpose]) => (
-                    <tr key={`${method}-${route}`} className="bg-white/[0.02]">
-                      <td className="px-4 py-3 font-mono-ui text-[#7dffa2]">{method}</td>
-                      <td className="px-4 py-3 font-mono-ui text-[#cbbeff]">{route}</td>
-                      <td className="px-4 py-3 text-[#cac3d9]">{purpose}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <div className="mt-8 grid gap-3 md:grid-cols-2">
-              {releaseStates.map(([state, meaning]) => (
-                <div key={state} className="rounded-lg border border-white/10 bg-white/[0.03] p-4">
-                  <p className="font-mono-ui text-[11px] uppercase tracking-[0.18em] text-[#7dffa2]">{state}</p>
-                  <p className="mt-2 text-sm leading-6 text-[#cac3d9]">{meaning}</p>
-                </div>
-              ))}
-            </div>
-
-            <Callout title="Published downloads are short lived" tone="violet">
-              <code className="font-mono-ui text-[#cbbeff]">GET /download</code> returns{" "}
-              <code className="font-mono-ui text-[#cbbeff]">url</code>,{" "}
-              <code className="font-mono-ui text-[#cbbeff]">filename</code>, and{" "}
-              <code className="font-mono-ui text-[#cbbeff]">expires_in_seconds</code>. Treat the signed URL as temporary.
-            </Callout>
           </DocsSection>
 
           <DocsSection id="security" eyebrow="Security" title="Operational guardrails">
@@ -423,14 +442,6 @@ function InfoTile({ title, marker, children }: { title: string; marker: string; 
   );
 }
 
-function InlineLink({ href, children }: { href: string; children: ReactNode }) {
-  return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className="text-[#7dffa2] underline-offset-4 hover:underline">
-      {children}
-    </a>
-  );
-}
-
 function AnnotatedScreenshot({ figure, priority = false }: { figure: ScreenshotFigure; priority?: boolean }) {
   return (
     <figure>
@@ -452,6 +463,11 @@ function AnnotatedScreenshot({ figure, priority = false }: { figure: ScreenshotF
           <ScreenshotAnnotation key={annotation.label} annotation={annotation} index={index + 1} />
         ))}
       </div>
+      <ol className="mt-3 grid gap-2 md:grid-cols-3">
+        {figure.annotations.map((annotation, index) => (
+          <AnnotationLegendItem key={annotation.label} annotation={annotation} index={index + 1} />
+        ))}
+      </ol>
     </figure>
   );
 }
@@ -459,9 +475,14 @@ function AnnotatedScreenshot({ figure, priority = false }: { figure: ScreenshotF
 function ScreenshotAnnotation({ annotation, index }: { annotation: Annotation; index: number }) {
   const tone = annotation.tone ?? "violet";
   const classes = {
-    violet: "border-[#cbbeff] bg-[#663af3]/20 text-[#efeaff]",
-    green: "border-[#7dffa2] bg-[#05e777]/15 text-[#dcffe7]",
-    amber: "border-[#ffd479] bg-[#ffd479]/15 text-[#fff1c7]",
+    violet: "border-[#cbbeff]/95 bg-[#663af3]/10",
+    green: "border-[#7dffa2]/95 bg-[#05e777]/10",
+    amber: "border-[#ffd479]/95 bg-[#ffd479]/10",
+  } satisfies Record<AnnotationTone, string>;
+  const badgeClasses = {
+    violet: "border-[#cbbeff] text-[#efeaff]",
+    green: "border-[#7dffa2] text-[#dcffe7]",
+    amber: "border-[#ffd479] text-[#fff1c7]",
   } satisfies Record<AnnotationTone, string>;
 
   const style: CSSProperties = {
@@ -472,17 +493,35 @@ function ScreenshotAnnotation({ annotation, index }: { annotation: Annotation; i
   };
 
   return (
-    <div className={`absolute rounded border-2 shadow-[0_0_24px_rgba(0,0,0,0.45)] ${classes[tone]}`} style={style}>
-      <span className="absolute left-2 top-2 max-w-[220px] rounded bg-black/85 px-2 py-1 font-mono-ui text-[10px] font-bold uppercase leading-4 tracking-[0.08em]">
-        {index}. {annotation.label}
+    <div aria-hidden="true" className={`absolute rounded border-2 shadow-[0_0_24px_rgba(0,0,0,0.45)] ${classes[tone]}`} style={style}>
+      <span className={`absolute left-1.5 top-1.5 flex size-6 items-center justify-center rounded border bg-black/90 font-mono-ui text-[10px] font-bold ${badgeClasses[tone]}`}>
+        {index}
       </span>
     </div>
   );
 }
 
-function CodeBlock({ title, lines }: { title: string; lines: string[] }) {
+function AnnotationLegendItem({ annotation, index }: { annotation: Annotation; index: number }) {
+  const tone = annotation.tone ?? "violet";
+  const classes = {
+    violet: "border-[#cbbeff]/30 bg-[#663af3]/10 text-[#efeaff]",
+    green: "border-[#7dffa2]/30 bg-[#05e777]/10 text-[#dcffe7]",
+    amber: "border-[#ffd479]/30 bg-[#ffd479]/10 text-[#fff1c7]",
+  } satisfies Record<AnnotationTone, string>;
+
   return (
-    <div className="rounded-lg border border-white/10 bg-[#101010]">
+    <li className={`flex items-start gap-3 rounded border px-3 py-2 ${classes[tone]}`}>
+      <span className="flex size-6 shrink-0 items-center justify-center rounded border border-current bg-black/60 font-mono-ui text-[10px] font-bold">
+        {index}
+      </span>
+      <span className="text-xs leading-5">{annotation.label}</span>
+    </li>
+  );
+}
+
+function CodeBlock({ title, lines, className = "" }: { title: string; lines: string[]; className?: string }) {
+  return (
+    <div className={`rounded-lg border border-white/10 bg-[#101010] ${className}`}>
       <div className="border-b border-white/10 px-4 py-3">
         <p className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-[#cbbeff]">{title}</p>
       </div>
