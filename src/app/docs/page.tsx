@@ -259,7 +259,7 @@ export default function DocsPage() {
             <ThemeToggle />
             <a
               href={DOWNLOAD_URL}
-              className="rounded border border-[#7dffa2]/45 px-2 py-2 font-space text-[10px] font-bold uppercase tracking-[0.08em] text-[#7dffa2] transition hover:border-[#7dffa2] hover:text-white sm:px-3 sm:text-[11px] sm:tracking-[0.12em]"
+              className="action-green rounded border border-[#7dffa2]/45 px-2 py-2 font-space text-[10px] font-bold uppercase tracking-[0.08em] text-[#7dffa2] transition hover:border-[#7dffa2] hover:text-white sm:px-3 sm:text-[11px] sm:tracking-[0.12em]"
             >
               Download
             </a>
@@ -267,9 +267,9 @@ export default function DocsPage() {
               href={APP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded border border-[#cbbeff]/40 px-2 py-2 font-space text-[10px] font-bold uppercase tracking-[0.08em] text-[#cbbeff] transition hover:border-[#cbbeff] hover:text-white sm:px-3 sm:text-[11px] sm:tracking-[0.12em]"
+              className="sign-in-action rounded border px-2 py-2 font-space text-[10px] font-bold uppercase tracking-[0.08em] transition sm:px-3 sm:text-[11px] sm:tracking-[0.12em]"
             >
-              Console
+              Sign in
             </a>
           </div>
         </div>
@@ -304,7 +304,7 @@ export default function DocsPage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
                 href={DOWNLOAD_URL}
-                className="inline-flex items-center justify-center rounded border border-[#7dffa2]/60 bg-[#7dffa2]/10 px-5 py-3 font-space text-sm font-bold uppercase tracking-[0.12em] text-[#7dffa2] transition hover:border-[#7dffa2] hover:text-white"
+                className="action-green inline-flex items-center justify-center rounded border border-[#7dffa2]/60 bg-[#7dffa2]/10 px-5 py-3 font-space text-sm font-bold uppercase tracking-[0.12em] text-[#7dffa2] transition hover:border-[#7dffa2] hover:text-white"
               >
                 Download Desktop v0.1.3
               </a>
@@ -312,9 +312,9 @@ export default function DocsPage() {
                 href={APP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded border border-[#cbbeff]/45 px-5 py-3 font-space text-sm font-bold uppercase tracking-[0.12em] text-[#cbbeff] transition hover:border-[#cbbeff] hover:text-white"
+                className="action-violet inline-flex items-center justify-center rounded border border-[#cbbeff]/45 px-5 py-3 font-space text-sm font-bold uppercase tracking-[0.12em] text-[#cbbeff] transition hover:border-[#cbbeff] hover:text-white"
               >
-                Open Web Console
+                Sign in
               </a>
             </div>
           </section>
@@ -492,7 +492,7 @@ export default function DocsPage() {
             </Callout>
           </DocsSection>
 
-          <DocsSection id="desktop-app" eyebrow="Desktop App" title="Package and run encrypted apps">
+          <DocsSection id="desktop-app" eyebrow="Desktop App" title="Encrypt and run applications">
             <p className="max-w-3xl text-[#cac3d9]">
               The desktop app is a Tauri shell for developer encryption and support-side running. Cloud key delivery is the default:
               the package key is registered through the API, and the customer receives launchers, the encrypted bundle, and a license.

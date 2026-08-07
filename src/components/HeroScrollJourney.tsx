@@ -207,13 +207,13 @@ export function HeroScrollJourney() {
                   href={APP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded border border-[#663af3] bg-[#663af3]/20 px-8 py-3 font-space text-sm uppercase text-[#e3daff] shadow-[0_0_15px_rgba(102,58,243,0.3)] transition-colors hover:bg-[#663af3]/30"
+                  className="action-violet rounded border border-[#663af3] bg-[#663af3]/20 px-8 py-3 font-space text-sm uppercase text-[#e3daff] shadow-[0_0_15px_rgba(102,58,243,0.3)] transition-colors hover:bg-[#663af3]/30"
                 >
-                  Open Console
+                  Sign in
                 </a>
                 <a
                   href={DOWNLOAD_URL}
-                  className="rounded border border-[#7dffa2]/45 bg-[#7dffa2]/10 px-8 py-3 font-space text-sm uppercase text-[#7dffa2] shadow-[0_0_15px_rgba(5,231,119,0.16)] transition-colors hover:border-[#7dffa2] hover:bg-[#7dffa2]/15 hover:text-white"
+                  className="action-green rounded border border-[#7dffa2]/45 bg-[#7dffa2]/10 px-8 py-3 font-space text-sm uppercase text-[#7dffa2] shadow-[0_0_15px_rgba(5,231,119,0.16)] transition-colors hover:border-[#7dffa2] hover:bg-[#7dffa2]/15 hover:text-white"
                 >
                   Download Desktop
                 </a>

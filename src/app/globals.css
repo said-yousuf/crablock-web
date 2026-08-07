@@ -482,39 +482,37 @@ html {
   color: #171a22 !important;
 }
 
-:root[data-theme="light"] a[class*="text-[#7dffa2]"] {
+:root[data-theme="light"] .action-green {
   background-color: rgba(8, 106, 53, 0.08) !important;
   border-color: rgba(8, 106, 53, 0.58) !important;
   color: #086a35 !important;
 }
 
-:root[data-theme="light"] a[class*="text-[#7dffa2]"]:hover {
+:root[data-theme="light"] .action-green:hover {
   background-color: #086a35 !important;
   border-color: #086a35 !important;
   color: #ffffff !important;
 }
 
-:root[data-theme="light"] a[class*="text-[#cbbeff]"],
-:root[data-theme="light"] a[class*="text-[#e3daff]"] {
+:root[data-theme="light"] .action-violet {
   background-color: rgba(84, 51, 181, 0.08) !important;
   border-color: rgba(84, 51, 181, 0.58) !important;
   color: #5433b5 !important;
 }
 
-:root[data-theme="light"] a[class*="text-[#cbbeff]"]:hover,
-:root[data-theme="light"] a[class*="text-[#e3daff]"]:hover {
+:root[data-theme="light"] .action-violet:hover {
   background-color: #5433b5 !important;
   border-color: #5433b5 !important;
   color: #ffffff !important;
 }
 
-:root[data-theme="light"] a[class*="bg-[#663af3]"] {
+:root[data-theme="light"] .action-solid-violet {
   background-color: #5433b5 !important;
   border-color: #5433b5 !important;
   color: #ffffff !important;
 }
 
-:root[data-theme="light"] a[class*="bg-[#663af3]"]:hover {
+:root[data-theme="light"] .action-solid-violet:hover {
   background-color: #452898 !important;
   border-color: #452898 !important;
 }

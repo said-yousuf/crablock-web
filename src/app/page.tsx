@@ -74,6 +74,27 @@ const deliveryHighlights = [
   ["Supportable runtime", "The runner can inspect, verify, run, stop, and reopen the packaged app without exposing the original source folder."],
 ] as const;
 
+const footerGroups = [
+  {
+    title: "Product",
+    links: [
+      ["Encryption", "#top"],
+      ["Workflow", "#threat-map"],
+      ["Running", "#telemetry"],
+      ["Delivery", "#vault"],
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      ["Documentation", "/docs"],
+      ["Desktop installer", DOWNLOAD_URL],
+      ["Sign in", APP_URL],
+      ["Key API docs", "https://key.crablock.cloud/docs"],
+    ],
+  },
+] as const;
+
 export default function Home() {
   const workflowRef = useRef<HTMLElement | null>(null);
   const [headerSolid, setHeaderSolid] = useState(false);
@@ -89,9 +110,9 @@ export default function Home() {
   const year = useMemo(() => new Date().getFullYear(), []);
   const navItems = useMemo(
     () => [
-      ["SHIELD", "shield"],
+      ["ENCRYPTION", "shield"],
       ["WORKFLOW", "threat-map"],
-      ["DESKTOP", "telemetry"],
+      ["RUNNING", "telemetry"],
       ["DELIVERY", "vault"],
     ] as const,
     []
@@ -195,7 +216,7 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen bg-black text-[#e2e2e2] selection:bg-[#663af3] selection:text-white">
+    <div id="top" className="relative min-h-screen bg-black text-[#e2e2e2] selection:bg-[#663af3] selection:text-white">
       <div className="orb-primary top-0 left-0" />
       <div className="orb-secondary top-1/4 right-0" />
       <div className="orb-primary bottom-0 right-1/4 !bg-[#00E676] !opacity-5" />
@@ -237,7 +258,7 @@ export default function Home() {
             <ThemeToggle />
             <a
               href={DOWNLOAD_URL}
-              className="hidden items-center justify-center rounded border border-[#7dffa2]/50 bg-[#7dffa2]/10 px-3 py-2 font-space text-xs font-medium uppercase tracking-[0.2em] text-[#7dffa2] transition-all hover:border-[#7dffa2] hover:bg-[#7dffa2]/15 hover:text-white lg:flex xl:px-4"
+              className="action-green hidden items-center justify-center rounded border border-[#7dffa2]/50 bg-[#7dffa2]/10 px-3 py-2 font-space text-xs font-medium uppercase tracking-[0.2em] text-[#7dffa2] transition-all hover:border-[#7dffa2] hover:bg-[#7dffa2]/15 hover:text-white lg:flex xl:px-4"
             >
               Download
             </a>
@@ -268,7 +289,7 @@ export default function Home() {
           </Link>
           <a
             href={DOWNLOAD_URL}
-            className="rounded border border-[#7dffa2]/40 px-3 py-1.5 font-space text-[10px] font-bold uppercase tracking-[0.12em] text-[#7dffa2]"
+            className="action-green rounded border border-[#7dffa2]/40 px-3 py-1.5 font-space text-[10px] font-bold uppercase tracking-[0.12em] text-[#7dffa2]"
           >
             Download
           </a>
@@ -302,13 +323,13 @@ export default function Home() {
               href={APP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 flex w-full items-center justify-center gap-2 rounded border border-[#cbbeff] bg-black py-4 font-space text-sm font-bold uppercase tracking-[0.15em] text-[#cbbeff] shadow-[0_0_20px_rgba(102,58,243,0.25)]"
+              className="action-violet mt-6 flex w-full items-center justify-center gap-2 rounded border border-[#cbbeff] bg-black py-4 font-space text-sm font-bold uppercase tracking-[0.15em] text-[#cbbeff] shadow-[0_0_20px_rgba(102,58,243,0.25)]"
             >
-              OPEN CONSOLE <span className="material-symbols-outlined text-base">arrow_outward</span>
+              SIGN IN <span className="material-symbols-outlined text-base">arrow_outward</span>
             </a>
             <a
               href={DOWNLOAD_URL}
-              className="mt-3 flex w-full items-center justify-center gap-2 rounded border border-[#7dffa2]/70 bg-[#7dffa2]/10 py-4 font-space text-sm font-bold uppercase tracking-[0.15em] text-[#7dffa2] shadow-[0_0_20px_rgba(5,231,119,0.18)]"
+              className="action-green mt-3 flex w-full items-center justify-center gap-2 rounded border border-[#7dffa2]/70 bg-[#7dffa2]/10 py-4 font-space text-sm font-bold uppercase tracking-[0.15em] text-[#7dffa2] shadow-[0_0_20px_rgba(5,231,119,0.18)]"
             >
               DOWNLOAD DESKTOP <span className="material-symbols-outlined text-base">download</span>
             </a>
@@ -325,7 +346,7 @@ export default function Home() {
             <div className="lg:sticky lg:top-28 lg:h-fit">
               <span className="font-mono-ui text-[10px] uppercase tracking-[0.35em] text-[#7dffa2]/80">[ BUILD WORKFLOW ]</span>
               <h2 className="font-space mt-4 max-w-3xl text-[2rem] font-bold uppercase leading-[1.08] text-white sm:text-5xl md:text-6xl">
-                From source folder to customer-ready bundle.
+                From source folder to encrypted delivery.
               </h2>
               <p className="mt-5 max-w-xl text-[15px] leading-7 text-[#cac3d9] sm:text-base">
                 Crablock packages the app in the same order the desktop workflow expects: detect the project, write the config, bundle runtimes, encrypt the output, then ship a runnable customer folder.
@@ -550,13 +571,13 @@ export default function Home() {
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                 <a
                   href={DOWNLOAD_URL}
-                  className="inline-flex items-center justify-center rounded border border-[#7dffa2]/55 bg-[#7dffa2]/10 px-8 py-4 font-space text-sm font-bold uppercase tracking-[0.14em] text-[#7dffa2] backdrop-blur-sm transition-colors hover:border-[#7dffa2] hover:text-white"
+                  className="action-green inline-flex items-center justify-center rounded border border-[#7dffa2]/55 bg-[#7dffa2]/10 px-8 py-4 font-space text-sm font-bold uppercase tracking-[0.14em] text-[#7dffa2] backdrop-blur-sm transition-colors hover:border-[#7dffa2] hover:text-white"
                 >
                   Download Desktop
                 </a>
                 <Link
                   href="/docs"
-                  className="inline-flex items-center justify-center rounded border border-[#cbbeff]/45 px-8 py-4 font-space text-sm font-bold uppercase tracking-[0.14em] text-[#cbbeff] transition-colors hover:border-[#cbbeff] hover:text-white"
+                  className="action-violet inline-flex items-center justify-center rounded border border-[#cbbeff]/45 px-8 py-4 font-space text-sm font-bold uppercase tracking-[0.14em] text-[#cbbeff] transition-colors hover:border-[#cbbeff] hover:text-white"
                 >
                   Read Docs
                 </Link>
@@ -763,13 +784,13 @@ export default function Home() {
                 href={APP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded border border-white/20 bg-[#663af3] px-10 py-4 font-space text-base uppercase shadow-[0_0_30px_rgba(102,58,243,0.5)] transition-transform hover:-translate-y-0.5"
+                className="action-solid-violet rounded border border-white/20 bg-[#663af3] px-10 py-4 font-space text-base uppercase shadow-[0_0_30px_rgba(102,58,243,0.5)] transition-transform hover:-translate-y-0.5"
               >
-                START BUILDING TODAY
+                SIGN IN
               </a>
               <a
                 href={DOWNLOAD_URL}
-                className="rounded border border-[#7dffa2]/45 bg-white/5 px-8 py-4 font-space text-sm uppercase tracking-[0.15em] text-[#7dffa2] backdrop-blur-sm transition-colors hover:border-[#7dffa2] hover:text-white"
+                className="action-green rounded border border-[#7dffa2]/45 bg-white/5 px-8 py-4 font-space text-sm uppercase tracking-[0.15em] text-[#7dffa2] backdrop-blur-sm transition-colors hover:border-[#7dffa2] hover:text-white"
               >
                 DOWNLOAD DESKTOP
               </a>
@@ -792,39 +813,22 @@ export default function Home() {
               © {year} CRABLOCK SECURITY. [PROTECTED STATUS: ACTIVE]
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
-            {[
-              ["Product", ["Shield", "Workflow", "Desktop", "Delivery"]],
-              ["Developers", ["Docs", "SDK", "CLI", "Status"]],
-              ["Company", ["Security", "Careers", "Press", "Contact"]],
-              ["Legal", ["Privacy", "Terms", "DPA", "Subprocessors"]],
-            ].map(([title, links]) => (
-              <div key={title as string}>
-                <div className="font-mono-ui text-[10px] uppercase tracking-[0.25em] text-white/40">{title as string}</div>
+          <div className="grid grid-cols-2 gap-8">
+            {footerGroups.map(({ title, links }) => (
+              <div key={title}>
+                <div className="font-mono-ui text-[10px] uppercase tracking-[0.25em] text-white/40">{title}</div>
                 <ul className="mt-3 space-y-2">
-                  {(links as string[]).map((l) => {
-                    const href =
-                      l === "Docs"
-                        ? "/docs"
-                        : l === "CLI"
-                          ? DOWNLOAD_URL
-                          : l === "Workflow"
-                            ? "#threat-map"
-                            : l === "Desktop"
-                              ? "#telemetry"
-                              : l === "Delivery"
-                                ? "#vault"
-                                : "#";
+                  {links.map(([label, href]) => {
                     const isExternal = href.startsWith("http");
                     return (
-                      <li key={l}>
+                      <li key={label}>
                         <a
                           href={href}
                           target={isExternal ? "_blank" : undefined}
                           rel={isExternal ? "noopener noreferrer" : undefined}
                           className="font-space text-[12px] uppercase tracking-[0.08em] text-zinc-500 transition-colors hover:text-violet-400"
                         >
-                          {l}
+                          {label}
                         </a>
                       </li>
                     );
@@ -836,16 +840,16 @@ export default function Home() {
         </div>
         <div className="mx-auto mt-12 flex max-w-[1440px] flex-col gap-3 border-t border-white/5 pt-8 font-mono-ui text-[10px] text-white/35 md:flex-row md:items-center md:justify-between">
           <span>
-            system digest <span className="text-[#cbbeff]/70">sha256:2d9f…e0ac</span> · build <span className="text-[#7dffa2]/80">stable</span>
+            protection <span className="text-[#cbbeff]/70">AES-256-GCM</span> · signatures <span className="text-[#7dffa2]/80">Ed25519</span>
           </span>
-          <span className="uppercase tracking-[0.2em]">eu-west-1 · latency target 38ms p99</span>
+          <span className="uppercase tracking-[0.2em]">Windows desktop · API-managed key delivery</span>
         </div>
       </footer>
       <nav className="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around border-t border-white/10 bg-black/85 px-4 pb-6 pt-2 backdrop-blur-xl md:hidden">
         {[
-          ["grid_view", "#shield-mobile", "OPERATIONS"],
+          ["grid_view", "#shield-mobile", "ENCRYPT"],
           ["conversion_path", "#threat-map", "WORKFLOW"],
-          ["desktop_windows", "#telemetry", "DESKTOP"],
+          ["desktop_windows", "#telemetry", "RUNNING"],
           ["folder_zip", "#vault", "DELIVERY"],
         ].map(([icon, href, label], i) => (
           <a key={icon as string} href={href as string} className={`flex w-16 flex-col items-center gap-1 ${i === 3 ? "text-violet-400" : "text-zinc-500"}`}>
