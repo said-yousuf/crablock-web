@@ -31,50 +31,30 @@ ring = <span class="text-[#98c379]">"0.16.20"</span>
 dotenv = <span class="text-[#98c379]">"0.15"</span>`;
 
 const TERMINAL_LOGS = [
-  "[INIT] crablock-pipeline.sh v2.4.1",
-  "[SYSTEM] Locating cargo project...",
-  "[INFO] Found Cargo.toml",
-  "[BUILD] Running cargo build --release --target x86_64-unknown-linux-musl",
-  "   Compiling libc v0.2.147",
-  "   Compiling cfg-if v1.0.0",
-  "   Compiling pin-project-lite v0.2.12",
-  "   Compiling bytes v1.4.0",
-  "   Compiling ring v0.16.20",
-  "   Compiling tokio v1.32.0",
-  "   Compiling crablock-core v1.2.0",
-  "    Finished release [optimized] target(s) in 45.2s",
-  "[PACK] Extracting binary artifacts...",
+  "[INIT] Crablock encryption workflow",
+  "[SYSTEM] Detecting project stack...",
+  "[INFO] CrablockFile loaded",
+  "[PACK] Collecting selected production files...",
+  "[PACK] Resolving declared runtime assets...",
   "[HASH] Calculating SHA-256...",
   "> 8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4",
-  "[ENCRYPT] Engaging AES-256-GCM...",
+  "[ENCRYPT] Applying AES-256-GCM...",
   "  -> Generating nonce...",
   "  -> Encrypting payload blocks...",
   "  -> Computing authentication tag...",
   "[OK] Payload encrypted successfully.",
-  "[SIGN] Generating Ed25519 signature from HSM...",
+  "[SIGN] Creating Ed25519 package signature...",
   "> sig_18djq9384jdklsja8934jklsafj9843...",
-  "[BUNDLE] Creating deployment package...",
-  "  -> Adding encrypted binary",
+  "[BUNDLE] Creating customer package...",
+  "  -> Adding encrypted application payload",
   "  -> Adding signature manifest",
-  "  -> Adding enclave config",
-  "[OK] bundle.cbk generated.",
-  "[DEPLOY] Transmitting to secure relay...",
-  "  -> Establishing mTLS connection...",
-  "  -> Authenticating client cert...",
-  "  -> Pushing 14.2 MB...",
-  "  -> 100% complete.",
-  "[REMOTE] Verifying bundle integrity...",
-  "[REMOTE] SHA-256 match.",
-  "[REMOTE] Signature valid.",
-  "[ENCLAVE] Provisioning secure memory region...",
-  "[ENCLAVE] Loading encrypted artifact...",
-  "[ENCLAVE] Decrypting in-memory...",
-  "[ENCLAVE] Bootstrapping executable...",
-  "[SUCCESS] Process PID 8492 running in isolated execution environment.",
-  "[TELEMETRY] Heartbeat established.",
-  "[TELEMETRY] Memory regions locked.",
-  "[TELEMETRY] Introspection guard active.",
-  "[TELEMETRY] All systems nominal.",
+  "[OK] app_name.customer.crabundle generated.",
+  "[API] Registering package key...",
+  "[API] Customer license created.",
+  "[DELIVERY] Writing Start and Stop launchers...",
+  "[VERIFY] Bundle signature valid.",
+  "[LEASE] Wrapped runtime key granted.",
+  "[SUCCESS] Customer application is ready to run.",
 ];
 
 function renderTypingHtml(fullCode: string, progress: number) {
@@ -186,10 +166,10 @@ export function HeroScrollJourney() {
                 </span>
               </div>
               <h1 className="font-space text-4xl font-bold uppercase leading-[1.1] tracking-tight text-[#e2e2e2] md:text-5xl">
-                Vulnerability of Plaintext Artifacts.
+                Plaintext Projects Are Easy to Copy.
               </h1>
               <p className="max-w-xl text-base leading-relaxed text-[#cac3d9]">
-                Traditional application memory exposes sensitive execution paths. Hypervisor introspection can easily scrape keys and unencrypted payloads in transit.
+                Local customer deployments often expose source folders, framework files, and business logic that can be copied and redistributed.
               </p>
             </div>
 
@@ -202,10 +182,10 @@ export function HeroScrollJourney() {
                 </span>
               </div>
               <h1 className="font-space text-4xl font-bold uppercase leading-[1.1] tracking-tight text-[#e2e2e2] md:text-5xl">
-                Kinetic Encryption Pipeline.
+                Encrypt and Sign the Package.
               </h1>
               <p className="max-w-xl text-base leading-relaxed text-[#cac3d9]">
-                We intercept the build process, packing your binaries and assets into an encrypted, signed bundle before it ever reaches the cloud environment.
+                Crablock packages selected production files and runtime assets into an authenticated encrypted bundle, then signs it for launcher verification.
               </p>
             </div>
 
@@ -214,13 +194,13 @@ export function HeroScrollJourney() {
                 <span className="font-mono-ui border border-[#663af3]/50 bg-[#663af3]/20 px-2 py-1 text-[11px] font-bold uppercase tracking-[0.1em] text-[#cbbeff]">
                   [SECURE]
                 </span>
-                <span className="font-mono-ui text-xs uppercase tracking-wider text-[#cac3d9]">Runtime Encryption Active</span>
+                <span className="font-mono-ui text-xs uppercase tracking-wider text-[#cac3d9]">API License Active</span>
               </div>
               <h1 className="font-space text-4xl font-bold uppercase leading-[1.1] tracking-tight text-[#e2e2e2] md:text-5xl">
-                Absolute Digital Sovereignty.
+                Licensed Customer Running.
               </h1>
               <p className="max-w-xl text-base leading-relaxed text-[#cac3d9]">
-                Defense-in-depth architecture engineered for zero-trust environments. Isolate, encrypt, and deploy with hyper-technical precision.
+                The customer launcher verifies the package and requests short-lived wrapped-key access without receiving the raw package key.
               </p>
               <div className="flex gap-4 pt-2">
                 <a
@@ -229,7 +209,7 @@ export function HeroScrollJourney() {
                   rel="noopener noreferrer"
                   className="rounded border border-[#663af3] bg-[#663af3]/20 px-8 py-3 font-space text-sm uppercase text-[#e3daff] shadow-[0_0_15px_rgba(102,58,243,0.3)] transition-colors hover:bg-[#663af3]/30"
                 >
-                  Deploy Enclave
+                  Open Console
                 </a>
                 <a
                   href={DOWNLOAD_URL}
@@ -352,7 +332,7 @@ export function HeroScrollJourney() {
                             <>
                               <span className="material-symbols-outlined text-5xl text-[#05e777]">lock</span>
                               <span className="mt-2 font-mono-ui text-[11px] font-bold uppercase tracking-widest text-[#05e777]">
-                                ENCLAVE_ACTIVE
+                                PACKAGE_VERIFIED
                               </span>
                             </>
                           ) : null}

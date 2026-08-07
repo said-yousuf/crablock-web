@@ -17,6 +17,11 @@
   box-sizing: border-box;
 }
 
+:where(a, button):focus-visible {
+  outline: 2px solid #7dffa2;
+  outline-offset: 3px;
+}
+
 body {
   margin: 0;
   background: #000;
@@ -92,6 +97,14 @@ html {
   background: #00e676;
   filter: blur(100px);
   opacity: 0.08;
+}
+
+@media (max-width: 640px) {
+  .orb-primary,
+  .orb-secondary {
+    max-width: 100%;
+    max-height: 100vw;
+  }
 }
 
 .enclave-core-container {
@@ -196,6 +209,15 @@ html {
   opacity: 0;
   animation: scanUpDown 4s infinite linear;
   z-index: 20;
+}
+
+.workflow-path-dash {
+  stroke-dasharray: 10 18;
+  opacity: 0.32;
+}
+
+.workflow-path-progress {
+  transition: stroke-dashoffset 140ms linear;
 }
 
 @keyframes scanUpDown {
@@ -352,4 +374,193 @@ html {
   background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 20px 20px;
+}
+
+/* Light mode keeps the existing composition and only remaps its surfaces and type. */
+:root[data-theme="light"] {
+  --background: #f5f7fb;
+  --on-background: #171a22;
+  --surface-container-low: #ffffff;
+  --surface-container: #f7f8fb;
+  --surface-container-high: #edf0f5;
+  --surface-container-lowest: #ffffff;
+  --on-surface-variant: #5c6472;
+  color-scheme: light;
+}
+
+:root[data-theme="light"] body {
+  background: #f5f7fb;
+  color: #171a22;
+}
+
+:root[data-theme="light"] .bg-black,
+:root[data-theme="light"] [class*="bg-black/"] {
+  background-color: #f5f7fb !important;
+}
+
+:root[data-theme="light"] [class*="bg-[#020202]"],
+:root[data-theme="light"] [class*="bg-[#070708]"],
+:root[data-theme="light"] [class*="bg-[#08080a]"],
+:root[data-theme="light"] [class*="bg-[#090909]"],
+:root[data-theme="light"] [class*="bg-[#0a0a0a]"],
+:root[data-theme="light"] [class*="bg-[#0a100d]"],
+:root[data-theme="light"] [class*="bg-[#0d0d0f]"],
+:root[data-theme="light"] [class*="bg-[#0e0e0e]"],
+:root[data-theme="light"] [class*="bg-[#0f0f12]"],
+:root[data-theme="light"] [class*="bg-[#101010]"],
+:root[data-theme="light"] [class*="bg-[#111]"],
+:root[data-theme="light"] [class*="bg-[#1a1a1f]"],
+:root[data-theme="light"] [class*="bg-[#1b1b1b]"],
+:root[data-theme="light"] [class*="bg-[#1e1e1e]"],
+:root[data-theme="light"] [class*="bg-[#1f1f1f]"],
+:root[data-theme="light"] [class*="bg-[#2a2a2a]"],
+:root[data-theme="light"] [class*="bg-[#2d2d2d]"] {
+  background-color: #ffffff !important;
+}
+
+:root[data-theme="light"] [class*="bg-white/"] {
+  background-color: rgba(47, 70, 112, 0.045) !important;
+}
+
+:root[data-theme="light"] .glass-panel {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: #d9dee8 !important;
+  box-shadow: 0 14px 34px rgba(37, 48, 72, 0.08);
+}
+
+:root[data-theme="light"] .glass-panel::before {
+  background: linear-gradient(135deg, rgba(49, 87, 213, 0.13), rgba(255, 255, 255, 0));
+}
+
+:root[data-theme="light"] [class*="text-white"],
+:root[data-theme="light"] [class*="text-[#e2e2e2]"],
+:root[data-theme="light"] [class*="text-[#e7e7ea]"],
+:root[data-theme="light"] [class*="text-gray-300"] {
+  color: #171a22 !important;
+}
+
+:root[data-theme="light"] [class*="text-[#cac3d9]"],
+:root[data-theme="light"] [class*="text-zinc-500"],
+:root[data-theme="light"] [class*="text-gray-500"] {
+  color: #606878 !important;
+}
+
+:root[data-theme="light"] [class*="text-[#7dffa2]"],
+:root[data-theme="light"] [class*="text-[#05e777]"],
+:root[data-theme="light"] [class*="text-[#dcffe7]"] {
+  color: #086a35 !important;
+}
+
+:root[data-theme="light"] [class*="text-[#cbbeff]"],
+:root[data-theme="light"] [class*="text-[#e3daff]"],
+:root[data-theme="light"] [class*="text-[#efeaff]"] {
+  color: #5433b5 !important;
+}
+
+:root[data-theme="light"] [class*="text-[#ffb4ab]"] {
+  color: #b42318 !important;
+}
+
+:root[data-theme="light"] [class*="text-[#fff1c7]"] {
+  color: #805500 !important;
+}
+
+:root[data-theme="light"] [class*="border-white/"],
+:root[data-theme="light"] [class*="border-zinc-"] {
+  border-color: #d9dee8 !important;
+}
+
+:root[data-theme="light"] .theme-toggle {
+  background: #ffffff !important;
+  border-color: #d9dee8 !important;
+  color: #475066 !important;
+}
+
+:root[data-theme="light"] .theme-toggle:hover {
+  background: #edf0f5 !important;
+  border-color: #8f98aa !important;
+  color: #171a22 !important;
+}
+
+:root[data-theme="light"] a[class*="text-[#7dffa2]"] {
+  background-color: rgba(8, 106, 53, 0.08) !important;
+  border-color: rgba(8, 106, 53, 0.58) !important;
+  color: #086a35 !important;
+}
+
+:root[data-theme="light"] a[class*="text-[#7dffa2]"]:hover {
+  background-color: #086a35 !important;
+  border-color: #086a35 !important;
+  color: #ffffff !important;
+}
+
+:root[data-theme="light"] a[class*="text-[#cbbeff]"],
+:root[data-theme="light"] a[class*="text-[#e3daff]"] {
+  background-color: rgba(84, 51, 181, 0.08) !important;
+  border-color: rgba(84, 51, 181, 0.58) !important;
+  color: #5433b5 !important;
+}
+
+:root[data-theme="light"] a[class*="text-[#cbbeff]"]:hover,
+:root[data-theme="light"] a[class*="text-[#e3daff]"]:hover {
+  background-color: #5433b5 !important;
+  border-color: #5433b5 !important;
+  color: #ffffff !important;
+}
+
+:root[data-theme="light"] a[class*="bg-[#663af3]"] {
+  background-color: #5433b5 !important;
+  border-color: #5433b5 !important;
+  color: #ffffff !important;
+}
+
+:root[data-theme="light"] a[class*="bg-[#663af3]"]:hover {
+  background-color: #452898 !important;
+  border-color: #452898 !important;
+}
+
+.sign-in-action {
+  background-color: #020202;
+  border-color: rgba(63, 63, 70, 0.8);
+  color: #e7e7ea;
+}
+
+.sign-in-action:hover {
+  background-color: #09090a;
+  border-color: rgba(113, 113, 123, 0.8);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+:root[data-theme="light"] .sign-in-action {
+  background-color: #ffffff;
+  border-color: #c9d0dc;
+  color: #171a22;
+}
+
+:root[data-theme="light"] .sign-in-action:hover {
+  background-color: #edf0f5;
+  border-color: #8f98aa;
+  color: #171a22;
+}
+
+:root[data-theme="light"] :where(a, button):focus-visible {
+  outline-color: #5433b5;
+}
+
+:root[data-theme="light"] .terminal-scroll {
+  scrollbar-color: #8d9bc0 #edf0f5;
+}
+
+:root[data-theme="light"] .terminal-scroll::-webkit-scrollbar-track {
+  background: #edf0f5;
+}
+
+:root[data-theme="light"] .orb-primary,
+:root[data-theme="light"] .orb-secondary {
+  opacity: 0.045;
+}
+
+:root[data-theme="light"] svg [stroke="#ffffff"] {
+  stroke: #aab2c1;
 }

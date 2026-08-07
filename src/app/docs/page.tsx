@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { APP_URL, DOWNLOAD_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -89,38 +90,38 @@ const desktopFigures: ScreenshotFigure[] = [
   {
     title: "Desktop workflow overview",
     description:
-      "The desktop application guides a developer from project selection to customer handoff, including bundled runtime handling for PHP, Node, database, Rust, and Go outputs.",
+      "The desktop console links project selection, encryption, API license creation, customer delivery, and local run verification.",
     src: "/docs/screenshots/desktop-overview.png",
     width: 1440,
     height: 900,
     annotations: [
-      { label: "Four-step delivery model", x: 20, y: 18, width: 78, height: 20, tone: "violet" },
-      { label: "Customer handoff files", x: 20, y: 40, width: 38, height: 35, tone: "green" },
-      { label: "Runtime sidecar support", x: 59, y: 40, width: 38, height: 25, tone: "amber" },
+      { label: "Interactive desktop tutorial", x: 20, y: 18, width: 77, height: 46, tone: "violet" },
+      { label: "Four-step customer flow", x: 20, y: 68, width: 77, height: 20, tone: "green" },
+      { label: "API license and runtime status", x: 1, y: 76, width: 16, height: 16, tone: "amber" },
     ],
   },
   {
     title: "Encrypt customer application",
     description:
-      "The encryption page collects the project folder, output path, customer key, optional signing material, and the generated CrablockFile recipe before encryption.",
+      "The encryption page starts with the project folder and output path. Cloud key delivery is automatic, while recipe and runtime overrides remain available when needed.",
     src: "/docs/screenshots/desktop-encrypt.png",
     width: 1440,
     height: 900,
     annotations: [
-      { label: "Source, output, key, signature", x: 20, y: 24, width: 40, height: 40, tone: "green" },
-      { label: "Generated recipe review", x: 62, y: 24, width: 35, height: 44, tone: "violet" },
+      { label: "Project and encrypted output", x: 21, y: 35, width: 38, height: 42, tone: "green" },
+      { label: "Generated recipe review", x: 61, y: 24, width: 36, height: 58, tone: "violet" },
       { label: "Encrypt action", x: 91, y: 12, width: 7, height: 4, tone: "amber" },
     ],
   },
   {
     title: "Run encrypted application",
     description:
-      "The running page is the customer-support path. Select the encrypted package and key, optionally provide a license token, then Check or Run.",
+      "The running page defaults to the remote API license path. A legacy local-key field remains only for older bundles; new deliveries use the customer license.",
     src: "/docs/screenshots/desktop-running.png",
     width: 1440,
     height: 900,
     annotations: [
-      { label: "Customer files", x: 20, y: 18, width: 35, height: 48, tone: "green" },
+      { label: "Package and remote license", x: 20, y: 18, width: 35, height: 55, tone: "green" },
       { label: "Check and run controls", x: 87, y: 12, width: 11, height: 5, tone: "violet" },
       { label: "Runtime status and log", x: 57, y: 18, width: 40, height: 54, tone: "amber" },
     ],
@@ -157,7 +158,7 @@ const desktopAdvancedOptions = [
   ],
   [
     "Key and signature material",
-    "Generate or rotate the customer key, attach the developer signing key, and keep the signing public key available for customer-side verification.",
+    "The package key is generated and registered through the cloud API. Developer signing identity still protects launcher-side package verification.",
   ],
   [
     "Environment and preparation",
@@ -165,15 +166,15 @@ const desktopAdvancedOptions = [
   ],
   [
     "License gate",
-    "Enable license requirements for package-bound customer access, then generate the license file and matching public key before delivery.",
+    "Create an API-backed customer license that authorizes device registration and short-lived wrapped-key leases at startup.",
   ],
   [
     "Delivery builder",
-    "Use the Delivery tab to assemble the launcher, encrypted package, key file, signing public key, and optional license sidecars into one customer folder.",
+    "Use the Delivery tab to assemble Start and Stop launchers, the encrypted package, and the customer license without a raw key file.",
   ],
   [
     "Run verification",
-    "Use Check before Run to inspect framework, runtime, database, license, signature, and signing fingerprint metadata without starting the app.",
+    "Use Check before Run to inspect framework, runtime, database, API license, signature, and signing fingerprint metadata without starting the app.",
   ],
 ] as const;
 
@@ -249,15 +250,16 @@ export default function DocsPage() {
   return (
     <div className="min-h-screen bg-black text-[#e2e2e2] selection:bg-[#663af3] selection:text-white">
       <header className="sticky top-0 z-50 border-b border-white/10 bg-black/80 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-4 px-4 py-4 md:px-10">
+        <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-2 px-3 py-4 sm:gap-4 sm:px-4 md:px-10">
           <Link href="/" className="flex items-center gap-3">
-            <Image src="/logo.svg" alt="Crablock logo" width={30} height={30} className="h-[30px] w-[30px] max-w-none object-contain" />
-            <span className="font-space text-lg font-black uppercase tracking-[0.14em] text-white">Crablock Docs</span>
+            <Image src="/logo.png" alt="Crablock logo" width={30} height={30} className="h-[30px] w-[30px] max-w-none object-contain" />
+            <span className="hidden font-space text-lg font-black uppercase tracking-[0.14em] text-white min-[420px]:inline">Crablock Docs</span>
           </Link>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
+            <ThemeToggle />
             <a
               href={DOWNLOAD_URL}
-              className="rounded border border-[#7dffa2]/45 px-3 py-2 font-space text-[11px] font-bold uppercase tracking-[0.12em] text-[#7dffa2] transition hover:border-[#7dffa2] hover:text-white"
+              className="rounded border border-[#7dffa2]/45 px-2 py-2 font-space text-[10px] font-bold uppercase tracking-[0.08em] text-[#7dffa2] transition hover:border-[#7dffa2] hover:text-white sm:px-3 sm:text-[11px] sm:tracking-[0.12em]"
             >
               Download
             </a>
@@ -265,7 +267,7 @@ export default function DocsPage() {
               href={APP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded border border-[#cbbeff]/40 px-3 py-2 font-space text-[11px] font-bold uppercase tracking-[0.12em] text-[#cbbeff] transition hover:border-[#cbbeff] hover:text-white"
+              className="rounded border border-[#cbbeff]/40 px-2 py-2 font-space text-[10px] font-bold uppercase tracking-[0.08em] text-[#cbbeff] transition hover:border-[#cbbeff] hover:text-white sm:px-3 sm:text-[11px] sm:tracking-[0.12em]"
             >
               Console
             </a>
@@ -297,7 +299,7 @@ export default function DocsPage() {
             </h1>
             <p className="mt-5 max-w-3xl text-base leading-8 text-[#cac3d9]">
               Crablock combines a hosted operations console, a desktop encryption shell, and a Rust CLI/runtime.
-              Use these docs to package customer applications, publish releases, and download signed runtime artifacts.
+              Use these docs to encrypt customer applications, register package keys through the cloud API, issue licenses, and verify customer running.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a
@@ -320,11 +322,11 @@ export default function DocsPage() {
           <DocsSection id="install" eyebrow="Install" title="Download and run">
             <div className="grid gap-6 lg:grid-cols-3">
               <InfoTile title="Desktop installer" marker="01">
-                Download the Windows desktop installer from the v0.1.3 GitHub release. The desktop shell is the preferred path for
-                creating customer delivery folders.
+                Download the Windows desktop installer directly from this site. The desktop shell is the preferred path for creating
+                encrypted customer delivery folders.
               </InfoTile>
               <InfoTile title="Hosted console" marker="02">
-                Use the hosted console for projects, release sources, key versions, release records, and signed package downloads.
+                Use the hosted console for projects, key versions, releases, licenses, organizations, and operator access.
               </InfoTile>
               <InfoTile title="CLI and runtime tools" marker="03">
                 Use the CLI for scripted packaging, manifest inspection, signature verification, service control, and customer runtime support.
@@ -337,9 +339,9 @@ export default function DocsPage() {
               lines={[
                 "1. Install Crablock Desktop.",
                 "2. Open Encryption and choose the project folder.",
-                "3. Generate or select the customer key file.",
-                "4. Encrypt, then build the customer delivery folder.",
-                "5. Ship Start <App>.exe, <App>.customer.crabundle, <App>.key, and optional license files.",
+                "3. Review project detection and the generated CrablockFile recipe.",
+                "4. Encrypt; Crablock registers the package key through the cloud API.",
+                "5. Build delivery with Start <App>.exe, Stop <App>.exe, the .crabundle, and API license.",
               ]}
             />
           </DocsSection>
@@ -440,7 +442,7 @@ export default function DocsPage() {
                 "4. Click Write CrablockFile before Encrypt.",
                 "",
                 "# From the CLI bundle workflow:",
-                "crablock-pack bundle --project C:\\apps\\customer-app --output C:\\out\\customer.crabundle --key file:C:\\keys\\customer.key --write-crablockfile",
+                "crablock-pack bundle --project C:\\apps\\customer-app --output C:\\out\\customer.crabundle --write-crablockfile",
                 "",
                 "# From the repository helper script for known stacks:",
                 ".\\scripts\\new-crablockfile.ps1 -Stack react-nestjs -ProjectPath C:\\apps\\customer-app -AppName CustomerApp -WebPort 5175 -ApiPort 4000 -Force",
@@ -492,13 +494,27 @@ export default function DocsPage() {
 
           <DocsSection id="desktop-app" eyebrow="Desktop App" title="Package and run encrypted apps">
             <p className="max-w-3xl text-[#cac3d9]">
-              The desktop app is a Tauri shell for developer packaging and support-side running. It bundles the CLI sidecars and keeps the
-              customer workflow focused on a small delivery folder.
+              The desktop app is a Tauri shell for developer encryption and support-side running. Cloud key delivery is the default:
+              the package key is registered through the API, and the customer receives launchers, the encrypted bundle, and a license.
             </p>
+            <Callout title="Cloud key delivery is the default" tone="green">
+              The developer environment uses <code className="font-mono-ui text-[#7dffa2]">CRABLOCK_KEY_API_ADMIN_TOKEN</code> for package-key registration and license administration.
+              The customer receives only the issued license; the launcher uses it to request a short-lived wrapped-key lease.
+            </Callout>
             <div className="mt-8 grid gap-10">
               {desktopFigures.map((figure) => (
                 <AnnotatedScreenshot key={figure.src} figure={figure} />
               ))}
+            </div>
+            <div className="mt-10 rounded-lg border border-white/10 bg-white/[0.03] p-4">
+              <p className="font-mono-ui text-[10px] uppercase tracking-[0.22em] text-[#7dffa2]">Desktop tutorial</p>
+              <p className="mt-2 text-sm leading-6 text-[#cac3d9]">
+                Follow project selection, encryption, API license creation, customer delivery, and launch verification in the current light interface.
+              </p>
+              <video className="mt-4 w-full rounded-lg border border-white/10 bg-black" controls preload="metadata" poster="/docs/screenshots/desktop-overview.png">
+                <source src="/docs/crablock-desktop-tutorial.mp4" type="video/mp4" />
+                Your browser does not support embedded video.
+              </video>
             </div>
           </DocsSection>
 
@@ -519,9 +535,9 @@ export default function DocsPage() {
               title="Advanced desktop checklist"
               lines={[
                 "1. Scan or select runtime folders before encryption when the customer PC should not install dependencies.",
-                "2. Generate the customer key and developer signing key before building the package.",
+                "2. Confirm the cloud API connection and developer signing identity before encryption.",
                 "3. Review the generated CrablockFile recipe before writing it to the source project.",
-                "4. Enable license requirements only after the license public key and customer duration are set.",
+                "4. Create the API-backed customer license after package-key registration succeeds.",
                 "5. Build the delivery folder, then use Check on the Running page before handing it to the customer.",
               ]}
             />
@@ -532,19 +548,17 @@ export default function DocsPage() {
               <CodeBlock
                 title="Create a customer bundle"
                 lines={[
-                  "crablock-pack bundle \\",
-                  "  --project C:\\path\\to\\app \\",
-                  "  --output C:\\out\\app.crabundle \\",
-                  "  --key file:C:\\keys\\app.key",
+                  "crablock-pack bundle --project C:\\path\\to\\app",
+                  "# The API-first workflow registers the generated package key.",
+                  "# Use crablock-pack bundle --help for the installed build's exact options.",
                 ]}
               />
               <CodeBlock
                 title="Run a customer bundle"
                 lines={[
-                  "crablock-runner run C:\\out\\app.crabundle \\",
-                  "  --key file:C:\\keys\\app.key \\",
-                  "  --install-dir C:\\Crablock\\installed\\app \\",
-                  "  --app-data-dir C:\\Crablock\\data\\app",
+                  "Start app_name.exe",
+                  "# The launcher validates app_name.license and requests a wrapped-key lease.",
+                  "# Stop app_name.exe ends managed services and removes ephemeral runtime files.",
                 ]}
               />
               <CodeBlock
@@ -571,8 +585,8 @@ export default function DocsPage() {
           <DocsSection id="security" eyebrow="Security" title="Operational guardrails">
             <div className="grid gap-4">
               <Guardrail title="Do not document secrets">
-                Runtime keys, signing material, license private keys, and decrypted artifacts should never appear in screenshots,
-                commits, support tickets, or public docs.
+                Runtime keys, signing material, API administrator tokens, customer licenses, and decrypted artifacts should never appear
+                in screenshots, commits, support tickets, or public docs.
               </Guardrail>
               <Guardrail title="Rotate keys intentionally">
                 Key rotation creates a new active project key version. Existing releases remain inspectable, but new releases should use
@@ -705,7 +719,7 @@ function AnnotationLegendItem({ annotation, index }: { annotation: Annotation; i
 
 function CodeBlock({ title, lines, className = "" }: { title: string; lines: string[]; className?: string }) {
   return (
-    <div className={`rounded-lg border border-white/10 bg-[#101010] ${className}`}>
+    <div className={`min-w-0 rounded-lg border border-white/10 bg-[#101010] ${className}`}>
       <div className="border-b border-white/10 px-4 py-3">
         <p className="font-mono-ui text-[10px] uppercase tracking-[0.2em] text-[#cbbeff]">{title}</p>
       </div>
