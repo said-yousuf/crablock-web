@@ -562,3 +562,54 @@ html {
 :root[data-theme="light"] svg [stroke="#ffffff"] {
   stroke: #aab2c1;
 }
+
+/* Maintenance page */
+.maintenance-icon {
+  animation: maintenanceGlow 3.2s ease-in-out infinite;
+}
+
+@keyframes maintenanceGlow {
+  0%,
+  100% {
+    border-color: rgba(234, 179, 8, 0.35);
+    box-shadow: 0 0 34px rgba(234, 179, 8, 0.12), inset 0 0 24px rgba(234, 179, 8, 0.05);
+  }
+  50% {
+    border-color: rgba(234, 179, 8, 0.65);
+    box-shadow: 0 0 56px rgba(234, 179, 8, 0.24), inset 0 0 30px rgba(234, 179, 8, 0.1);
+  }
+}
+
+.maintenance-dot {
+  animation: maintenanceBlink 1.6s ease-in-out infinite;
+}
+
+@keyframes maintenanceBlink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.scanner-line-amber {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #eab308;
+  box-shadow: 0 0 15px 3px rgba(234, 179, 8, 0.5);
+  opacity: 0;
+  animation: scanUpDown 4s infinite linear;
+  z-index: 20;
+}
+
+:root[data-theme="light"] [class*="text-[#eab308]"] {
+  color: #8a6d00 !important;
+}
+
+:root[data-theme="light"] [class*="border-[#eab308]"] {
+  border-color: rgba(138, 109, 0, 0.45) !important;
+}
